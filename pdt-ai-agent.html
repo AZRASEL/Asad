@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDT.AI | Advanced Photodynamic Therapy Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --surface: #FFFFFF;
+            --border: #000000;
+            --primary: #000000;
+            --secondary: #333333;
+            --accent: #000000;
+            --text: #000000;
+            --text-dim: #555555;
+            --glow: none;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Abstract Glow Background Removed */
+        .bg-glow {
+            display: none;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 4px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #000000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .status-badge {
+            background: #000000;
+            color: #FFFFFF;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            border: 2px solid #000000;
+            font-weight: 700;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr 300px;
+            gap: 2rem;
+        }
+
+        .panel {
+            background: var(--surface);
+            border: 3px solid var(--border);
+            border-radius: 0;
+            padding: 1.5rem;
+            height: fit-content;
+            transition: all 0.2s ease;
+        }
+
+        .panel:hover {
+            box-shadow: 8px 8px 0px #000000;
+            transform: translate(-4px, -4px);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.8rem;
+        }
+
+        .panel-header h2 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #000000;
+        }
+
+        /* Module: Scientific Literature */
+        .literature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .lit-item {
+            padding: 1rem;
+            background: #FFFFFF;
+            border: 2px solid #000000;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .lit-item:hover {
+            background: #000000;
+            color: #FFFFFF;
+        }
+
+        .lit-item:hover .lit-meta {
+            color: #CCCCCC;
+        }
+
+        .lit-title {
+            font-size: 0.95rem;
+            font-weight: 900;
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+        }
+
+        .lit-meta {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+        }
+
+        /* Module: Treatment Recommendations */
+        .recommendation-tool {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .param-group {
+            background: #F0F0F0;
+            padding: 1.2rem;
+            border: 2px solid var(--border);
+        }
+
+        .param-label {
+            font-size: 0.8rem;
+            color: #000000;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .param-value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #000000;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Module: Workflow Automation */
+        .workflow-step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #F0F0F0;
+            border: 2px solid #000000;
+        }
+
+        .step-num {
+            width: 28px;
+            height: 28px;
+            background: #000000;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        /* Module: Quantitative Analysis */
+        .analysis-canvas {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #FFFFFF;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #000000;
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #000000;
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .stats-overlay {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #FFFFFF;
+            background: #000000;
+            padding: 0.8rem;
+            font-weight: 700;
+        }
+
+        /* Interactive Elements */
+        .btn {
+            background: #000000;
+            color: #FFFFFF;
+            border: 3px solid #000000;
+            padding: 1rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: #FFFFFF;
+            color: #000000;
+            transform: translate(-4px, -4px);
+            box-shadow: 4px 4px 0px #000000;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 3px solid #000000;
+            color: #000000;
+        }
+
+        .btn-outline:hover {
+            background: #000000;
+            color: #FFFFFF;
+        }
+
+        @media (max-width: 1100px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                PDT.AI
+            </div>
+            <div class="status-badge">AGENT ACTIVE // KNOWLEDGE BASE 2026.05</div>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- Left Column: Literature & Protocols -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span>📚</span>
+                    <h2>Scientific Intelligence</h2>
+                </div>
+                <div class="literature-list">
+                    <div class="lit-item">
+                        <div class="lit-title">Lipid Droplet-Targeted TADF for Ferroptosis</div>
+                        <div class="lit-meta">Advanced Healthcare Materials (2026)</div>
+                    </div>
+                    <div class="lit-item">
+                        <div class="lit-title">CRISPR/Cas9 MXene-Based ROS Amplification</div>
+                        <div class="lit-meta">Journal of Nanobiotechnology (2026)</div>
+                    </div>
+                    <div class="lit-item">
+                        <div class="lit-title">Au-PtNPs@Mn3O4 Hypoxia Modulation</div>
+                        <div class="lit-meta">ACS Omega (2025)</div>
+                    </div>
+                    <div class="lit-item">
+                        <div class="lit-title">Redefining Cancer Care with Light Weapons</div>
+                        <div class="lit-meta">IJBS (2025)</div>
+                    </div>
+                </div>
+                <button class="btn btn-outline" style="width: 100%; margin-top: 1.5rem;">Fetch Latest Research</button>
+            </div>
+
+            <!-- Middle Column: Treatment & Analysis -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span>🎯</span>
+                    <h2>Therapeutic Optimization</h2>
+                </div>
+                
+                <div class="recommendation-tool">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="param-group">
+                            <span class="param-label">Recommended Wavelength</span>
+                            <div class="param-value">808 nm</div>
+                        </div>
+                        <div class="param-group">
+                            <span class="param-label">Light Fluence</span>
+                            <div class="param-value">120 J/cm²</div>
+                        </div>
+                    </div>
+
+                    <div class="param-group">
+                        <span class="param-label">Agent Logic: Synergistic Mechanism</span>
+                        <p style="font-size: 0.95rem; font-weight: 500;">
+                            Integrating Type-I ROS generation with CRISPR-mediated FABP5 silencing to bypass antioxidant defense mechanisms. Target: Cervical/Lung Carcinoma.
+                        </p>
+                    </div>
+
+                    <div class="panel-header" style="margin-top: 1rem;">
+                        <span>🔬</span>
+                        <h2>PpIX Fluorescence Analysis</h2>
+                    </div>
+                    
+                    <div class="analysis-canvas">
+                        <div class="scan-line"></div>
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                            <span style="font-size: 3rem;">🧫</span>
+                            <p style="font-size: 0.8rem; font-family: 'JetBrains Mono'; font-weight: 700;">AWAITING IMAGE INPUT</p>
+                        </div>
+                        <div class="stats-overlay">
+                            ROI: ACTIVE<br>
+                            NOISE_REDUCTION: ON<br>
+                            ACCUMULATION_MAP: PENDING
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn" style="flex: 1;">Upload Medical Image</button>
+                        <button class="btn btn-outline">Generate Clinical Report</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Workflow & Best Practices -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span>⚙️</span>
+                    <h2>Automation Hub</h2>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-num">1</div>
+                    <div>
+                        <div style="font-size: 0.9rem; font-weight: 900; text-transform: uppercase;">PS Administration</div>
+                        <div style="font-size: 0.75rem; font-weight: 600;">Optimal uptake window: 4-6h</div>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-num">2</div>
+                    <div>
+                        <div style="font-size: 0.9rem; font-weight: 900; text-transform: uppercase;">Hypoxia Pre-Check</div>
+                        <div style="font-size: 0.75rem; font-weight: 600;">Evaluate Mn3O4 enzyme activity</div>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-num">3</div>
+                    <div>
+                        <div style="font-size: 0.9rem; font-weight: 900; text-transform: uppercase;">Laser Activation</div>
+                        <div style="font-size: 0.75rem; font-weight: 600;">808nm NIR pulses synchronized</div>
+                    </div>
+                </div>
+
+                <div class="panel-header" style="margin-top: 2rem;">
+                    <span>📜</span>
+                    <h2>Best Practices</h2>
+                </div>
+                <ul style="font-size: 0.85rem; padding-left: 1.2rem; font-weight: 600;">
+                    <li style="margin-bottom: 0.6rem;">Use NIR (Near-Infrared) for >5mm tissue depth.</li>
+                    <li style="margin-bottom: 0.6rem;">Monitor ROS spikes via TADF lifetime decay.</li>
+                    <li>Synchronize dosimetry with respiratory gating.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive Logic for PDT.AI
+        document.querySelectorAll('.lit-item').forEach(item => {
+            item.addEventListener('click', () => {
+                alert('PDT.AI: Summarizing this article based on latest 2026 data...');
+            });
+        });
+    </script>
+</body>
+</html>
